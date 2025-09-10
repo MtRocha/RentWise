@@ -3,7 +3,7 @@ Imports System.Data.SqlClient
 Imports Microsoft.Data.SqlClient
 
 Public Class HelperDAO
-    Private Shared ReadOnly connString As String = "Server=LAB5-05; Database=RentWise; Integrated Security=True"
+    Private Shared ReadOnly connString As String = "Server=LAB5-05; Database=RentWise; Integrated Security=True; TrustServerCertificate=True"
 
     Public Shared Function ExecuteQuery(query As String, Optional parameters As List(Of SqlParameter) = Nothing) As DataTable
         Dim dt As New DataTable()
