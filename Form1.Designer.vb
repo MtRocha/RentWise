@@ -1,239 +1,182 @@
 ﻿Partial Class Form1
     Inherits System.Windows.Forms.Form
 
-    ' Controle declarados
-    Private txt_name As TextBox
-    Private txt_address As TextBox
-    Private txt_state As TextBox
-    Private txt_city As TextBox
-    Private txt_district As TextBox
-    Private Button2 As Button
-    Private Label1 As Label
-    Private img_house As PictureBox
-    Private txt_paste_code As MaskedTextBox
-    Private txt_rent_value As MaskedTextBox
+    Private WithEvents logoLabel As Label
+    Private WithEvents titleLabel As Label
+    Private WithEvents subtitleLabel As Label
+    Private WithEvents emailLabel As Label
+    Friend WithEvents txtEmail As TextBox
+    Private WithEvents passwordLabel As Label
+    Friend WithEvents txtPassword As MaskedTextBox
+    Private WithEvents btnLogin As Button
+    Private WithEvents linkRegister As LinkLabel
+    Private WithEvents heroPanel As Panel
+    Private WithEvents heroTitle As Label
+    Private WithEvents heroDesc As Label
 
     Public Sub New()
         InitializeComponent()
     End Sub
 
     Private Sub InitializeComponent()
-        Dim resources As ComponentModel.ComponentResourceManager = New ComponentModel.ComponentResourceManager(GetType(Form1))
-        txt_name = New TextBox()
-        txt_address = New TextBox()
-        txt_state = New TextBox()
-        txt_city = New TextBox()
-        txt_district = New TextBox()
-        Button2 = New Button()
-        Label1 = New Label()
-        img_house = New PictureBox()
-        txt_paste_code = New MaskedTextBox()
-        txt_rent_value = New MaskedTextBox()
-        txt_number = New TextBox()
-        Label2 = New Label()
-        Label3 = New Label()
-        Label4 = New Label()
-        Label5 = New Label()
-        Label6 = New Label()
-        Label7 = New Label()
-        Label8 = New Label()
-        Button1 = New Button()
-        CType(img_house, ComponentModel.ISupportInitialize).BeginInit()
+        logoLabel = New Label()
+        titleLabel = New Label()
+        subtitleLabel = New Label()
+        emailLabel = New Label()
+        txtEmail = New TextBox()
+        passwordLabel = New Label()
+        txtPassword = New MaskedTextBox()
+        btnLogin = New Button()
+        linkRegister = New LinkLabel()
+        heroPanel = New Panel()
+        heroTitle = New Label()
+        heroDesc = New Label()
+        heroPanel.SuspendLayout()
         SuspendLayout()
         ' 
-        ' txt_name
+        ' logoLabel
         ' 
-        txt_name.Location = New Point(276, 48)
-        txt_name.Name = "txt_name"
-        txt_name.Size = New Size(422, 23)
-        txt_name.TabIndex = 1
+        logoLabel.AutoSize = True
+        logoLabel.Font = New Font("Segoe UI", 22.2F, FontStyle.Bold, GraphicsUnit.Point)
+        logoLabel.ForeColor = Color.FromArgb(CByte(124), CByte(58), CByte(237))
+        logoLabel.Location = New Point(80, 40)
+        logoLabel.Name = "logoLabel"
+        logoLabel.Size = New Size(257, 50)
+        logoLabel.TabIndex = 0
+        logoLabel.Text = "🏠 Rent Wise"
         ' 
-        ' txt_address
+        ' titleLabel
         ' 
-        txt_address.Location = New Point(276, 264)
-        txt_address.Name = "txt_address"
-        txt_address.Size = New Size(350, 23)
-        txt_address.TabIndex = 2
+        titleLabel.AutoSize = True
+        titleLabel.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point)
+        titleLabel.Location = New Point(80, 90)
+        titleLabel.Name = "titleLabel"
+        titleLabel.Size = New Size(294, 41)
+        titleLabel.TabIndex = 1
+        titleLabel.Text = "Bem-vindo de volta"
         ' 
-        ' txt_state
+        ' subtitleLabel
         ' 
-        txt_state.Location = New Point(10, 316)
-        txt_state.Name = "txt_state"
-        txt_state.Size = New Size(243, 23)
-        txt_state.TabIndex = 3
+        subtitleLabel.AutoSize = True
+        subtitleLabel.ForeColor = Color.Gray
+        subtitleLabel.Location = New Point(80, 130)
+        subtitleLabel.Name = "subtitleLabel"
+        subtitleLabel.Size = New Size(411, 23)
+        subtitleLabel.TabIndex = 2
+        subtitleLabel.Text = "Entre na sua conta para gerenciar suas propriedades"
         ' 
-        ' txt_city
+        ' emailLabel
         ' 
-        txt_city.Location = New Point(276, 316)
-        txt_city.Name = "txt_city"
-        txt_city.Size = New Size(198, 23)
-        txt_city.TabIndex = 4
+        emailLabel.Location = New Point(80, 174)
+        emailLabel.Name = "emailLabel"
+        emailLabel.Size = New Size(100, 23)
+        emailLabel.TabIndex = 3
+        emailLabel.Text = "Email"
         ' 
-        ' txt_district
+        ' txtEmail
         ' 
-        txt_district.Location = New Point(501, 316)
-        txt_district.Name = "txt_district"
-        txt_district.Size = New Size(197, 23)
-        txt_district.TabIndex = 5
+        txtEmail.Location = New Point(80, 200)
+        txtEmail.Name = "txtEmail"
+        txtEmail.Size = New Size(300, 30)
+        txtEmail.TabIndex = 4
         ' 
-        ' Button2
+        ' passwordLabel
         ' 
-        Button2.Location = New Point(276, 367)
-        Button2.Name = "Button2"
-        Button2.Size = New Size(199, 49)
-        Button2.TabIndex = 7
-        Button2.Text = "Cancelar"
+        passwordLabel.Location = New Point(80, 244)
+        passwordLabel.Name = "passwordLabel"
+        passwordLabel.Size = New Size(100, 23)
+        passwordLabel.TabIndex = 5
+        passwordLabel.Text = "Senha"
         ' 
-        ' Label1
+        ' txtPassword
         ' 
-        Label1.Location = New Point(276, 30)
-        Label1.Name = "Label1"
-        Label1.Size = New Size(100, 15)
-        Label1.TabIndex = 8
-        Label1.Text = "Aluguel"
+        txtPassword.Location = New Point(80, 270)
+        txtPassword.Name = "txtPassword"
+        txtPassword.PasswordChar = "●"c
+        txtPassword.Size = New Size(300, 30)
+        txtPassword.TabIndex = 6
         ' 
-        ' img_house
+        ' btnLogin
         ' 
-        img_house.Image = CType(resources.GetObject("img_house.Image"), Image)
-        img_house.Location = New Point(12, 47)
-        img_house.Name = "img_house"
-        img_house.Size = New Size(221, 180)
-        img_house.SizeMode = PictureBoxSizeMode.StretchImage
-        img_house.TabIndex = 0
-        img_house.TabStop = False
+        btnLogin.BackColor = Color.FromArgb(CByte(124), CByte(58), CByte(237))
+        btnLogin.FlatAppearance.BorderSize = 0
+        btnLogin.FlatStyle = FlatStyle.Flat
+        btnLogin.Font = New Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point)
+        btnLogin.ForeColor = Color.White
+        btnLogin.Location = New Point(80, 370)
+        btnLogin.Name = "btnLogin"
+        btnLogin.Size = New Size(300, 45)
+        btnLogin.TabIndex = 9
+        btnLogin.Text = "Entrar"
+        btnLogin.UseVisualStyleBackColor = False
         ' 
-        ' txt_paste_code
+        ' linkRegister
         ' 
-        txt_paste_code.Location = New Point(10, 264)
-        txt_paste_code.Mask = "00000-000"
-        txt_paste_code.Name = "txt_paste_code"
-        txt_paste_code.Size = New Size(243, 23)
-        txt_paste_code.TabIndex = 9
+        linkRegister.LinkColor = Color.FromArgb(CByte(124), CByte(58), CByte(237))
+        linkRegister.Location = New Point(80, 430)
+        linkRegister.Name = "linkRegister"
+        linkRegister.Size = New Size(300, 23)
+        linkRegister.TabIndex = 11
+        linkRegister.TabStop = True
+        linkRegister.Text = "Criar conta"
+        linkRegister.TextAlign = ContentAlignment.MiddleCenter
         ' 
-        ' txt_rent_value
+        ' heroPanel
         ' 
-        txt_rent_value.Location = New Point(276, 90)
-        txt_rent_value.Mask = "$00000,00"
-        txt_rent_value.Name = "txt_rent_value"
-        txt_rent_value.Size = New Size(422, 23)
-        txt_rent_value.TabIndex = 10
+        heroPanel.BackColor = Color.FromArgb(CByte(124), CByte(58), CByte(237))
+        heroPanel.Controls.Add(heroTitle)
+        heroPanel.Controls.Add(heroDesc)
+        heroPanel.Dock = DockStyle.Right
+        heroPanel.Location = New Point(531, 0)
+        heroPanel.Name = "heroPanel"
+        heroPanel.Size = New Size(531, 509)
+        heroPanel.TabIndex = 12
         ' 
-        ' txt_number
+        ' heroTitle
         ' 
-        txt_number.Location = New Point(632, 264)
-        txt_number.Name = "txt_number"
-        txt_number.Size = New Size(66, 23)
-        txt_number.TabIndex = 11
+        heroTitle.AutoSize = True
+        heroTitle.FlatStyle = FlatStyle.System
+        heroTitle.Font = New Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point)
+        heroTitle.ForeColor = Color.White
+        heroTitle.Location = New Point(20, 45)
+        heroTitle.Name = "heroTitle"
+        heroTitle.Size = New Size(504, 32)
+        heroTitle.TabIndex = 0
+        heroTitle.Text = "Gerencie suas propriedades com facilidade"
+        heroTitle.TextAlign = ContentAlignment.MiddleLeft
         ' 
-        ' Label2
+        ' heroDesc
         ' 
-        Label2.Location = New Point(276, 74)
-        Label2.Name = "Label2"
-        Label2.Size = New Size(100, 15)
-        Label2.TabIndex = 12
-        Label2.Text = "Valor do Aluguel"
-        ' 
-        ' Label3
-        ' 
-        Label3.Location = New Point(10, 246)
-        Label3.Name = "Label3"
-        Label3.Size = New Size(142, 15)
-        Label3.TabIndex = 13
-        Label3.Text = "Código Postal - CEP"
-        ' 
-        ' Label4
-        ' 
-        Label4.Location = New Point(10, 298)
-        Label4.Name = "Label4"
-        Label4.Size = New Size(142, 15)
-        Label4.TabIndex = 14
-        Label4.Text = "Estado"
-        ' 
-        ' Label5
-        ' 
-        Label5.Location = New Point(276, 298)
-        Label5.Name = "Label5"
-        Label5.Size = New Size(142, 15)
-        Label5.TabIndex = 15
-        Label5.Text = "Cidade"
-        ' 
-        ' Label6
-        ' 
-        Label6.Location = New Point(501, 298)
-        Label6.Name = "Label6"
-        Label6.Size = New Size(142, 15)
-        Label6.TabIndex = 16
-        Label6.Text = "Bairro"
-        ' 
-        ' Label7
-        ' 
-        Label7.Location = New Point(276, 246)
-        Label7.Name = "Label7"
-        Label7.Size = New Size(142, 15)
-        Label7.TabIndex = 17
-        Label7.Text = "Endereço"
-        ' 
-        ' Label8
-        ' 
-        Label8.Location = New Point(632, 246)
-        Label8.Name = "Label8"
-        Label8.Size = New Size(39, 15)
-        Label8.TabIndex = 18
-        Label8.Text = "N°"
-        ' 
-        ' Button1
-        ' 
-        Button1.Location = New Point(499, 367)
-        Button1.Name = "Button1"
-        Button1.Size = New Size(199, 49)
-        Button1.TabIndex = 19
-        Button1.Text = "Cancelar"
+        heroDesc.ForeColor = Color.White
+        heroDesc.Location = New Point(20, 100)
+        heroDesc.Name = "heroDesc"
+        heroDesc.Size = New Size(489, 60)
+        heroDesc.TabIndex = 1
+        heroDesc.Text = "Controle aluguéis, inquilinos e manutenções em um só lugar."
         ' 
         ' Form1
         ' 
-        ClientSize = New Size(708, 437)
-        Controls.Add(Button1)
-        Controls.Add(Label8)
-        Controls.Add(Label7)
-        Controls.Add(Label6)
-        Controls.Add(Label5)
-        Controls.Add(Label4)
-        Controls.Add(Label3)
-        Controls.Add(Label2)
-        Controls.Add(txt_number)
-        Controls.Add(img_house)
-        Controls.Add(txt_name)
-        Controls.Add(txt_address)
-        Controls.Add(txt_state)
-        Controls.Add(txt_city)
-        Controls.Add(txt_district)
-        Controls.Add(Button2)
-        Controls.Add(Label1)
-        Controls.Add(txt_paste_code)
-        Controls.Add(txt_rent_value)
+        BackColor = Color.White
+        ClientSize = New Size(1062, 509)
+        Controls.Add(logoLabel)
+        Controls.Add(titleLabel)
+        Controls.Add(subtitleLabel)
+        Controls.Add(emailLabel)
+        Controls.Add(txtEmail)
+        Controls.Add(passwordLabel)
+        Controls.Add(txtPassword)
+        Controls.Add(btnLogin)
+        Controls.Add(linkRegister)
+        Controls.Add(heroPanel)
+        Font = New Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point)
+        FormBorderStyle = FormBorderStyle.FixedSingle
+        MaximizeBox = False
         Name = "Form1"
-        Text = "Gerenciamento de Aluguéis"
-        CType(img_house, ComponentModel.ISupportInitialize).EndInit()
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "Rent Wise - Login"
+        heroPanel.ResumeLayout(False)
+        heroPanel.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
-
-    Private Sub EstilizarBotao(botao As Button, corFundo As Color, corFonte As Color)
-        botao.FlatStyle = FlatStyle.Flat
-        botao.BackColor = corFundo
-        botao.ForeColor = corFonte
-        botao.FlatAppearance.BorderSize = 0
-        botao.Font = New Font("Segoe UI", 11, FontStyle.Bold)
-        botao.Cursor = Cursors.Hand
-    End Sub
-
-    Private WithEvents txt_number As TextBox
-    Private WithEvents Label2 As Label
-    Private WithEvents Label3 As Label
-    Private WithEvents Label4 As Label
-    Private WithEvents Label5 As Label
-    Private WithEvents Label6 As Label
-    Private WithEvents Label7 As Label
-    Private WithEvents Label8 As Label
-    Private WithEvents Button1 As Button
 End Class

@@ -1,152 +1,139 @@
 ﻿Imports Microsoft.Data.SqlClient
-Imports Microsoft.EntityFrameworkCore.Storage
 
 Public Class HouseDAO
 
     Function GetAll(userId As Integer) As List(Of House)
         Try
-            Dim query As String = $"SELECT * FROM TBL_HOUSES WHERE USER_ID = @userId"
-            Dim parameters As List(Of SqlParameter)
-            parameters.Add(New SqlParameter("@userId", userId))
-            Dim houses As DataTable = HelperDAO.ExecuteQuery(query, parameters)
-            Dim list As List(Of House)
+            Dim query As String = "SELECT * FROM TBL_HOUSES WHERE USER_ID = @userId"
+            Dim parameters As New List(Of SqlParameter) From {
+                New SqlParameter("@userId", userId)
+            }
 
-            For Each row In houses.Rows
+            Dim houses As DataTable = HelperDAO.ExecuteQuery(query, parameters)
+            Dim list As New List(Of House)
+
+            For Each row As DataRow In houses.Rows
                 list.Add(MapObject(row))
             Next
 
             Return list
-
-
         Catch ex As Exception
-
+            Throw New Exception("Erro em GetAll: " & ex.Message, ex)
         End Try
     End Function
 
     Function GetById(houseId As Integer) As House
         Try
-            Dim query As String = $"SELECT * FROM TBL_HOUSES WHERE USER_ID = @houseId"
-            Dim parameters As List(Of SqlParameter)
-            parameters.Add(New SqlParameter("@houseId", houseId))
+            Dim query As String = "SELECT * FROM TBL_HOUSES WHERE ID = @houseId"
+            Dim parameters As New List(Of SqlParameter) From {
+                New SqlParameter("@houseId", houseId)
+            }
 
             Dim houses As DataTable = HelperDAO.ExecuteQuery(query, parameters)
 
-            Dim list As List(Of House)
-
-            If (houses.Rows.Count = 0) Then
+            If houses.Rows.Count = 0 Then
                 Return Nothing
             End If
 
             Return MapObject(houses.Rows(0))
-
         Catch ex As Exception
-
+            Throw New Exception("Erro em GetById: " & ex.Message, ex)
         End Try
     End Function
 
-    Function Create(model As House)
+    Sub Create(model As House)
         Try
             Dim query As String = "
-                INSERT INTO [dbo].[tb_house] 
-                    ([name], [rent_value], [house_image], [post_card], [house_address], 
-                     [house_number], [district], [city], [state], [id_user])
-                VALUES 
-                    (@Name, @RentValue, @HouseImage, @PostCard, @HouseAddress, 
+                INSERT INTO [dbo].[tbl_houses]
+                    ([name], [rentValue], [houseImage], [postcard], [houseAddress],
+                     [houseNumber], [district], [city], [state], [User_id])
+                VALUES
+                    (@Name, @RentValue, @HouseImage, @PostCard, @HouseAddress,
                      @HouseNumber, @District, @City, @State, @IdUser)
             "
             Dim parameters = MapTable(model)
-
             HelperDAO.ExecuteNonQuery(query, parameters)
-
         Catch ex As Exception
-
+            Throw New Exception("Erro em Create: " & ex.Message, ex)
         End Try
-    End Function
+    End Sub
 
-    Function Update(model As House)
-
+    Sub Update(model As House)
         Try
             Dim query As String = "
-                UPDATE [dbo].[tb_house]
-                SET 
+                UPDATE [dbo].[tbl_houses]
+                SET
                     [name] = @Name,
-                    [rent_value] = @RentValue,
-                    [house_image] = @HouseImage,
-                    [post_card] = @PostCard,
-                    [house_address] = @HouseAddress,
-                    [house_number] = @HouseNumber,
+                    [rentValue] = @RentValue,
+                    [houseImage] = @HouseImage,
+                    [postcard] = @PostCard,
+                    [houseAddress] = @HouseAddress,
+                    [houseNumber] = @HouseNumber,
                     [district] = @District,
                     [city] = @City,
                     [state] = @State,
-                    [id_user] = @IdUser
+                    [user_id] = @IdUser
                 WHERE [id] = @Id
             "
-
             Dim parameters = MapTable(model)
+            parameters.Add(New SqlParameter("@Id", model.Id))
 
             HelperDAO.ExecuteNonQuery(query, parameters)
-
         Catch ex As Exception
-
+            Throw New Exception("Erro em Update: " & ex.Message, ex)
         End Try
+    End Sub
 
-    End Function
-
-    Function Delete(houseId As Integer)
+    Sub Delete(houseId As Integer)
         Try
-            Dim query = "DELETE TB_HOUSE WHERE ID = @ID"
-            Dim parameters As List(Of SqlParameter)
-            parameters.Add(New SqlParameter("@ID", houseId))
+            Dim query = "DELETE FROM TBl_HOUSEs WHERE ID = @ID"
+            Dim parameters As New List(Of SqlParameter) From {
+                New SqlParameter("@ID", houseId)
+            }
 
             HelperDAO.ExecuteNonQuery(query, parameters)
-
         Catch ex As Exception
-
+            Throw New Exception("Erro em Delete: " & ex.Message, ex)
         End Try
-    End Function
+    End Sub
 
     Function MapObject(dr As DataRow) As House
-
         Try
             Dim house As New House()
 
-            house.Id = If(dr("id"), 0)
-            house.Name = If(dr("name"), String.Empty)
-            house.RentValue = If(dr("rent_value"), 0.0)
-            house.HouseImage = If(dr("house_image"), Nothing)
-            house.PostCard = If(dr("post_card"), 0)
-            house.HouseAddress = If(dr("house_address"), String.Empty)
-            house.HouseNumber = If(dr("house_number"), 0)
-            house.District = If(dr("district"), String.Empty)
-            house.City = If(dr("city"), String.Empty)
-            house.State = If(dr("state"), String.Empty)
+            house.Id = If(IsDBNull(dr("id")), 0, Convert.ToInt32(dr("id")))
+            house.Name = If(IsDBNull(dr("name")), String.Empty, dr("name").ToString())
+            house.RentValue = If(IsDBNull(dr("rentvalue")), 0D, Convert.ToDecimal(dr("rentvalue")))
+            house.HouseImage = If(IsDBNull(dr("houseimage")), Nothing, dr("houseimage"))
+            house.PostCard = If(IsDBNull(dr("postcard")), String.Empty, dr("postcard").ToString())
+            house.HouseAddress = If(IsDBNull(dr("houseaddress")), String.Empty, dr("houseaddress").ToString())
+            house.HouseNumber = If(IsDBNull(dr("housenumber")), 0, Convert.ToInt32(dr("housenumber")))
+            house.District = If(IsDBNull(dr("district")), String.Empty, dr("district").ToString())
+            house.City = If(IsDBNull(dr("city")), String.Empty, dr("city").ToString())
+            house.State = If(IsDBNull(dr("state")), String.Empty, dr("state").ToString())
+            house.IdUser = If(IsDBNull(dr("user_id")), 0, Convert.ToInt32(dr("user_id")))
 
             Return house
-
         Catch ex As Exception
-
+            Throw New Exception("Erro em MapObject: " & ex.Message, ex)
         End Try
-
     End Function
 
     Private Function MapTable(house As House) As List(Of SqlParameter)
-
-        Dim parameters = New List(Of SqlParameter)
-
-        parameters.Add(New SqlParameter("@Name", house.Name))
-        parameters.Add(New SqlParameter("@RentValue", house.RentValue))
-        parameters.Add(New SqlParameter("@HouseImage", house.HouseImage))
-        parameters.Add(New SqlParameter("@PostCard", house.PostCard))
-        parameters.Add(New SqlParameter("@HouseAddress", house.HouseAddress))
-        parameters.Add(New SqlParameter("@HouseNumber", house.HouseNumber))
-        parameters.Add(New SqlParameter("@District", house.District))
-        parameters.Add(New SqlParameter("@City", house.City))
-        parameters.Add(New SqlParameter("@State", house.State))
-        parameters.Add(New SqlParameter("@IdUser", house.Id))
+        Dim parameters = New List(Of SqlParameter) From {
+            New SqlParameter("@Name", house.Name),
+            New SqlParameter("@RentValue", house.RentValue),
+            New SqlParameter("@HouseImage", house.HouseImage),
+            New SqlParameter("@PostCard", house.PostCard),
+            New SqlParameter("@HouseAddress", house.HouseAddress),
+            New SqlParameter("@HouseNumber", house.HouseNumber),
+            New SqlParameter("@District", house.District),
+            New SqlParameter("@City", house.City),
+            New SqlParameter("@State", house.State),
+            New SqlParameter("@IdUser", house.IdUser)
+        }
 
         Return parameters
-
-
     End Function
 
 End Class
