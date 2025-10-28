@@ -88,6 +88,45 @@ Public Class UserDAO
         End Try
     End Function
 
+    Public Function IsAdminById(userId As Integer) As Boolean
+        Try
+            Dim query As String = "SELECT Role FROM Tbl_Users WHERE Id = @Id"
+            Dim parameters As New List(Of SqlParameter) From {
+                New SqlParameter("@Id", userId)
+            }
+
+            Dim dt As DataTable = HelperDAO.ExecuteQuery(query, parameters)
+            If dt.Rows.Count = 0 Then Return False
+
+            Dim roleValue As String = If(IsDBNull(dt.Rows(0)("Role")), "", dt.Rows(0)("Role").ToString().Trim())
+
+            Dim roleInt As Integer
+            If Integer.TryParse(roleValue, roleInt) Then
+                Return roleInt = 1
+            End If
+
+            Return roleValue = "1"
+        Catch ex As Exception
+            Throw New Exception("Erro em IsAdminById: " & ex.Message, ex)
+        End Try
+    End Function
+
+    Public Function GetNormalUsers() As List(Of User)
+        Try
+            Dim query As String = "SELECT * FROM Tbl_Users WHERE ISNULL(Role, '0') <> '1'"
+            Dim users As DataTable = HelperDAO.ExecuteQuery(query, Nothing)
+
+            Dim list As New List(Of User)
+            For Each row As DataRow In users.Rows
+                list.Add(MapObject(row))
+            Next
+
+            Return list
+        Catch ex As Exception
+            Throw New Exception("Erro em GetNormalUsers: " & ex.Message, ex)
+        End Try
+    End Function
+
     Sub Create(model As User)
         Try
             Dim query As String = "
